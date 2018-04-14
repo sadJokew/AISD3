@@ -15,7 +15,7 @@ public class Main {
     }
 
     //cards mixer
-    public void run() {
+    private void run() {
         int size = 10;
         Queue queue1 = new Queue(size);
         Queue queue2 = new Queue(size);
@@ -25,29 +25,38 @@ public class Main {
             queue1.insert((int) (Math.random() * 100));
             queue2.insert((int) (Math.random() * 100));
         }
-
         Queue temp1 = new Queue(queue1);
         Queue temp2 = new Queue(queue2);
 
         //COUT
         System.out.println("\t Queue 1 Before Shaking");
-        while (!temp1.isEmpty()) {
-            Object o = temp1.remove();
-            System.out.print(o.toString() + " ");
-        }
-        System.out.println();
+        print(temp1);
 
         System.out.println("\t Queue 2 Before Shaking");
-        while (!temp2.isEmpty()) {
-            Object o = temp2.remove();
-            System.out.print(o.toString() + " ");
-        }
-        System.out.println();
+        print(temp2);
 
         temp1 = new Queue(queue1);
         temp2 = new Queue(queue2);
-        Queue result = new Queue(20);
+        Queue result = shake(temp1, temp2);
 
+        System.out.println("\t Queue 1 After shaking");
+        print(temp1);
+        System.out.println("\t Queue 2 After shakin");
+        print(temp2);
+        System.out.println("\t Result After shaking");
+        print(result);
+    }
+
+    private void print(Queue que){
+        while (!que.isEmpty()) {
+            Object o = que.remove();
+            System.out.print(o.toString() + " ");
+        }
+        System.out.println();
+    }
+
+    private Queue shake(Queue temp1, Queue temp2){
+        Queue result = new Queue(temp1.getMaxSize()*2);
         for (int k = 0; k < (Math.random()*10000); k++) {
             //SHAKE 2->1
             while (!temp1.isEmpty() && !temp2.isEmpty()) {
@@ -64,7 +73,7 @@ public class Main {
             }
 
             //SHAKE 1->2
-            for (int i = 0; i < size * 2; i++) {
+            for (int i = 0; i < result.getMaxSize(); i++) {
                 if (i % 2 == 0) {
                     temp1.insert(result.remove());
                 } else {
@@ -73,31 +82,13 @@ public class Main {
             }
         }
         //CONTAIN 2->1
-        for (int i = 0; i < size * 2; i++) {
+        for (int i = 0; i < result.getMaxSize(); i++) {
             if (i % 2 == 0) {
                 result.insert(temp1.remove());
             } else {
                 result.insert(temp2.remove());
             }
         }
-
-        System.out.println("\t Queue 1 After shaking");
-        while (!temp1.isEmpty()) {
-            Object o = temp1.remove();
-            System.out.print(o.toString() + " ");
-        }
-        System.out.println();
-        System.out.println("\t Queue 2 After shakin");
-        while (!temp2.isEmpty()) {
-            Object o = temp2.remove();
-            System.out.print(o.toString() + " ");
-        }
-        System.out.println();
-        System.out.println("\t Result After shaking");
-        while (!result.isEmpty()) {
-            Object o = result.remove();
-            System.out.print(o.toString() + " ");
-        }
-        System.out.println();
+        return result;
     }
 }

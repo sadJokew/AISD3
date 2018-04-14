@@ -9,7 +9,7 @@ class Queue {
     private int front;
     private int rear;
 
-    public Queue(int maxSize) {
+    Queue(int maxSize) {
         this.maxSize = maxSize;
         queue = new Object[maxSize];
         rear = -1;
@@ -17,7 +17,11 @@ class Queue {
         nElem = 0;
     }
 
-    public Queue(Queue example){
+    int getMaxSize(){
+        return maxSize;
+    }
+
+    Queue(Queue example){
         this.maxSize = example.maxSize;
         this.nElem = example.nElem;
         this.front = example.front;
@@ -26,7 +30,7 @@ class Queue {
         System.arraycopy(example.queue, 0, this.queue, 0, maxSize);
     }
 
-    public void insert(Object elem) {
+    void insert(Object elem) {
         if (rear == maxSize - 1) {
             rear = -1;
         }
@@ -34,7 +38,7 @@ class Queue {
         nElem++;
     }
 
-    public Object remove() {
+    Object remove() {
         Object temp = queue[front++]; // получаем первый элемент из очереди
 
         if (front == maxSize) { // циклический перенос
@@ -53,7 +57,7 @@ class Queue {
         return (nElem == maxSize - 1);
     }
 
-    public boolean isEmpty() {
+    boolean isEmpty() {
         return (nElem == 0);
     }
 
